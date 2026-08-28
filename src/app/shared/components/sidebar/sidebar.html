@@ -1,0 +1,20 @@
+<nav class="sidebar-nav">
+    <a routerLink="/dashboard" routerLinkActive="sidebar-nav__link--active" class="sidebar-nav__link">
+        Dashboard
+    </a>
+    <a routerLink="/tickets" routerLinkActive="sidebar-nav__link--active" class="sidebar-nav__link">
+        Tickets
+    </a>
+
+    @if (authService.currentUser$ | async; as user) {
+        @if (user.role === 'admin') {
+        <a routerLink="/users" routerLinkActive="sidebar-nav__link--active" class="sidebar-nav__link">
+            Usuarios
+        </a>
+        }
+    }
+
+    <a routerLink="/profile" routerLinkActive="sidebar-nav__link--active" class="sidebar-nav__link">
+        Mi perfil
+    </a>
+</nav>

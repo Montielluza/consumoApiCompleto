@@ -1,0 +1,20 @@
+<div class="navbar">
+    @if (authService.currentUser$ | async; as user) {
+        <a routerLink="/profile" class="navbar__user">
+        <span class="navbar__user-name">{{ user.name }}</span>
+        <span class="badge">{{ user.role }}</span>
+        </a>
+    }
+
+    <button type="button" class="btn--outline" (click)="requestLogout()">Cerrar sesión</button>
+</div>
+
+@if (showLogoutConfirm()) {
+    <app-confirm-dialog
+        title="Cerrar sesión"
+        message="¿Seguro que quieres cerrar tu sesión?"
+        confirmLabel="Cerrar sesión"
+        (confirm)="confirmLogout()"
+        (cancel)="cancelLogout()"
+    />
+}

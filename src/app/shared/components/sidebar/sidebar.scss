@@ -1,0 +1,23 @@
+@use '../../../../styles/variables' as v;
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-1;
+    margin-top: v.$spacing-5;
+
+    &__link {
+        padding: v.$spacing-2 v.$spacing-3;
+        border-radius: v.$radius-sm;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: v.$font-size-sm;
+
+        &:hover { background: rgba(255, 255, 255, 0.08); text-decoration: none; }
+
+        &--active {
+        background: v.$color-primary;
+        color: v.$color-text-inverse;
+        font-weight: 600;
+        }
+    }
+}

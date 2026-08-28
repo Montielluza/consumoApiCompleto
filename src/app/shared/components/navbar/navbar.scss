@@ -1,0 +1,17 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.navbar {
+    width: 100%;
+    @include m.flex-between;
+}
+
+.navbar__user {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-2;
+    color: v.$color-text;
+    &:hover { text-decoration: none; }
+}
+
+.navbar__user-name { font-weight: 600; font-size: v.$font-size-sm; }
