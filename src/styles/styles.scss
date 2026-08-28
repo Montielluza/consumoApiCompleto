@@ -1,0 +1,110 @@
+@use 'variables' as v;
+@use 'mixins' as m;
+@use 'badges';
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; padding: 0; }
+
+body {
+    font-family: v.$font-family-base;
+    font-size: v.$font-size-base;
+    color: v.$color-text;
+    background-color: v.$color-bg;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 v.$spacing-3;
+    font-weight: 700;
+    color: v.$color-text;
+}
+
+a {
+    color: v.$color-primary;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+}
+
+button { font-family: inherit; }
+
+.btn {
+    @include m.button-base;
+    background: v.$color-primary;
+    color: v.$color-text-inverse;
+    &:hover:not(:disabled) { background: v.$color-primary-dark; }
+}
+
+.btn--outline {
+    @include m.button-base;
+    background: transparent;
+    color: v.$color-primary;
+    border: 1px solid v.$color-primary;
+    &:hover:not(:disabled) { background: v.$color-primary-light; }
+}
+
+.btn--danger {
+    @include m.button-base;
+    background: v.$color-danger;
+    color: v.$color-text-inverse;
+    &:hover:not(:disabled) { background: darken(v.$color-danger, 8%); }
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 v.$spacing-5;
+}
+
+.card {
+    @include m.card;
+    padding: v.$spacing-5;
+}
+
+.placeholder-note {
+    color: v.$color-text-muted;
+    font-size: v.$font-size-sm;
+    background: v.$color-primary-light;
+    border-radius: v.$radius-sm;
+    padding: v.$spacing-3;
+    display: inline-block;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-1;
+    margin-bottom: v.$spacing-4;
+
+    label { font-size: v.$font-size-sm; font-weight: 600; color: v.$color-text; }
+
+    input, select, textarea {
+        padding: v.$spacing-2 v.$spacing-3;
+        border: 1px solid v.$color-border;
+        border-radius: v.$radius-sm;
+        font-size: v.$font-size-sm;
+        font-family: inherit;
+
+    &:focus {
+        outline: none;
+        border-color: v.$color-primary;
+        box-shadow: 0 0 0 3px v.$color-primary-light;
+    }
+
+        &.is-invalid { border-color: v.$color-danger; }
+    }
+
+    .form-error { color: v.$color-danger; font-size: v.$font-size-xs; }
+    .form-hint { color: v.$color-text-muted; font-size: v.$font-size-xs; }
+}
+
+.alert {
+    padding: v.$spacing-3 v.$spacing-4;
+    border-radius: v.$radius-sm;
+    font-size: v.$font-size-sm;
+    margin-bottom: v.$spacing-4;
+}
+
+.alert--danger { background: rgba(220, 38, 38, 0.08); color: v.$color-danger; }
+.alert--success { background: rgba(22, 163, 74, 0.08); color: v.$color-success; }
