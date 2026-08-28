@@ -1,0 +1,13 @@
+@use '../../../../styles/variables' as v;
+
+.ticket-edit {
+    &__back {
+        display: inline-block;
+        margin-bottom: v.$spacing-4;
+        font-size: v.$font-size-sm;
+    }
+
+    form {
+        max-width: 560px;
+    }
+}

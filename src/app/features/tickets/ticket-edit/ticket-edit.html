@@ -1,0 +1,60 @@
+<div class="ticket-edit">
+    <a [routerLink]="['/tickets', id]" class="ticket-edit__back">&larr; Volver al ticket</a>
+    <h2>Editar ticket</h2>
+
+    @if (isLoadingTicket()) {
+        <p class="placeholder-note">Cargando ticket...</p>
+    } @else if (loadErrorMessage()) {
+        <div class="alert alert--danger">{{ loadErrorMessage() }}</div>
+    } @else {
+        @if (isForbiddenForAgent()) {
+        <div class="alert alert--danger">
+            Este ticket no está asignado a ti; solo puedes editar tickets que tengas asignados.
+        </div>
+        } @else {
+        @if (saveErrorMessage()) {
+            <div class="alert alert--danger">{{ saveErrorMessage() }}</div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card">
+            @if (isAdmin) {
+            <div class="form-field">
+                <label for="title">Título</label>
+                <input id="title" type="text" formControlName="title" />
+            </div>
+
+            <div class="form-field">
+                <label for="description">Descripción</label>
+                <textarea id="description" rows="5" formControlName="description"></textarea>
+            </div>
+            } @else {
+            <p class="form-hint">Como agente solo puedes cambiar la prioridad y el estado de este ticket.</p>
+            }
+
+            <div class="form-field">
+            <label for="priority">Prioridad</label>
+            <select id="priority" formControlName="priority">
+                <option value="low">Baja</option>
+                <option value="medium">Media</option>
+                <option value="high">Alta</option>
+                <option value="urgent">Urgente</option>
+            </select>
+            </div>
+
+            <div class="form-field">
+            <label for="status">Estado</label>
+            <select id="status" formControlName="status">
+                <option value="open">Abierto</option>
+                <option value="in_progress">En progreso</option>
+                <option value="resolved">Resuelto</option>
+                <option value="closed">Cerrado</option>
+            </select>
+            </div>
+
+            <button type="submit" class="btn" [disabled]="isSaving()">
+            {{ isSaving() ? 'Guardando...' : 'Guardar cambios' }}
+            </button>
+        </form>
+        }
+    }
+</div>
