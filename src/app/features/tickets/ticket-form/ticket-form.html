@@ -1,0 +1,58 @@
+<div class="ticket-form">
+    <a routerLink="/tickets" class="ticket-form__back">&larr; Volver a tickets</a>
+    <h2>Nuevo ticket</h2>
+
+    @if (errorMessage()) {
+        <div class="alert alert--danger">{{ errorMessage() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card">
+        <div class="form-field">
+        <label for="title">Título</label>
+        <input
+            id="title"
+            type="text"
+            formControlName="title"
+            [class.is-invalid]="title.invalid && title.touched"
+            placeholder="Ej: La impresora no funciona"
+        />
+        @if (title.invalid && title.touched) {
+            <span class="form-error">
+            @if (title.hasError('required')) { El título es obligatorio. }
+            @if (title.hasError('minlength')) { Debe tener al menos 5 caracteres. }
+            </span>
+        }
+        </div>
+
+        <div class="form-field">
+        <label for="description">Descripción</label>
+        <textarea
+            id="description"
+            rows="5"
+            formControlName="description"
+            [class.is-invalid]="description.invalid && description.touched"
+            placeholder="Describe el problema con el mayor detalle posible"
+        ></textarea>
+        @if (description.invalid && description.touched) {
+            <span class="form-error">
+            @if (description.hasError('required')) { La descripción es obligatoria. }
+            @if (description.hasError('minlength')) { Debe tener al menos 10 caracteres. }
+            </span>
+        }
+        </div>
+
+        <div class="form-field">
+        <label for="priority">Prioridad</label>
+        <select id="priority" formControlName="priority">
+            <option value="low">Baja</option>
+            <option value="medium">Media</option>
+            <option value="high">Alta</option>
+            <option value="urgent">Urgente</option>
+        </select>
+        </div>
+
+        <button type="submit" class="btn" [disabled]="isLoading()">
+        {{ isLoading() ? 'Creando...' : 'Crear ticket' }}
+        </button>
+    </form>
+</div>
