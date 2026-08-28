@@ -1,11 +1,15 @@
 import { Routes } from '@angular/router';
 
+import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
+import { ROLES } from './core/constants/roles.constant';
+
 /**
  * Rutas raíz de la aplicación.
  * - "auth" usa AuthLayout (pantalla centrada, sin sidebar/navbar).
- * - El resto usa MainLayout (navbar + sidebar) y en el Avance 3
- *   quedarán protegidas por AuthGuard / RoleGuard.
- * Todo el contenido de features se carga de forma diferida (lazy loading).
+ * - El resto usa MainLayout, protegido con authGuard vía canActivateChild:
+ *   nadie entra a dashboard/tickets/users/profile sin sesión.
+ * - "users" además exige rol admin con roleGuard.
  */
 export const routes: Routes = [
     {
@@ -18,6 +22,7 @@ export const routes: Routes = [
         path: '',
         loadComponent: () =>
         import('./layouts/main-layout/main-layout').then((m) => m.MainLayout),
+        canActivateChild: [authGuard],
         children: [
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         {
@@ -32,6 +37,7 @@ export const routes: Routes = [
         },
         {
             path: 'users',
+            canActivate: [roleGuard([ROLES.ADMIN])],
             loadChildren: () =>
             import('./features/users/users.routes').then((m) => m.USERS_ROUTES)
         },
