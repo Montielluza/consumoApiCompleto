@@ -1,0 +1,80 @@
+<div class="ticket-list">
+    <div class="ticket-list__header">
+        <h2>Tickets</h2>
+    </div>
+
+    <form [formGroup]="filtersForm" class="ticket-list__filters">
+        <div class="form-field">
+        <label for="search">Buscar por título</label>
+        <input id="search" type="text" formControlName="search" placeholder="Ej: impresora" />
+        </div>
+
+        <div class="form-field">
+        <label for="status">Estado</label>
+        <select id="status" formControlName="status">
+            <option value="">Todos</option>
+            <option value="open">Abierto</option>
+            <option value="in_progress">En progreso</option>
+            <option value="resolved">Resuelto</option>
+            <option value="closed">Cerrado</option>
+        </select>
+        </div>
+
+        <div class="form-field">
+        <label for="priority">Prioridad</label>
+        <select id="priority" formControlName="priority">
+            <option value="">Todas</option>
+            <option value="low">Baja</option>
+            <option value="medium">Media</option>
+            <option value="high">Alta</option>
+            <option value="urgent">Urgente</option>
+        </select>
+        </div>
+    </form>
+
+    @if (errorMessage()) {
+        <div class="alert alert--danger">{{ errorMessage() }}</div>
+    }
+
+    @if (isLoading()) {
+        <p class="placeholder-note">Cargando tickets...</p>
+    } @else if (filteredTickets().length === 0) {
+        <p class="placeholder-note">No hay tickets que coincidan con los filtros.</p>
+    } @else {
+        <div class="ticket-list__items">
+        @for (ticket of filteredTickets(); track ticket.id) {
+            <a [routerLink]="['/tickets', ticket.id]" class="ticket-card">
+            <div class="ticket-card__main">
+                <h3 class="ticket-card__title">{{ ticket.title }}</h3>
+                <p class="ticket-card__description">{{ ticket.description }}</p>
+            </div>
+            <div class="ticket-card__meta">
+                <span class="badge" [ngClass]="'badge--status-' + ticket.status">
+                {{ ticket.status }}
+                </span>
+                <span class="badge" [ngClass]="'badge--priority-' + ticket.priority">
+                {{ ticket.priority }}
+                </span>
+            </div>
+            </a>
+        }
+        </div>
+
+        @if (meta(); as m) {
+        <div class="ticket-list__pagination">
+            <button type="button" class="btn--outline" [disabled]="page() <= 1" (click)="goToPage(page() - 1)">
+            Anterior
+            </button>
+            <span>Página {{ m.page }} de {{ m.totalPages }} ({{ m.total }} tickets)</span>
+            <button
+            type="button"
+            class="btn--outline"
+            [disabled]="page() >= m.totalPages"
+            (click)="goToPage(page() + 1)"
+            >
+            Siguiente
+            </button>
+        </div>
+        }
+    }
+</div>

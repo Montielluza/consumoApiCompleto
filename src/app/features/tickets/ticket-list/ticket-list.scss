@@ -1,0 +1,77 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.ticket-list {
+    &__header {
+        margin-bottom: v.$spacing-4;
+    }
+
+    &__filters {
+        display: flex;
+        gap: v.$spacing-4;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        margin-bottom: v.$spacing-5;
+
+        .form-field {
+        margin-bottom: 0;
+        min-width: 180px;
+        }
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: v.$spacing-3;
+    }
+
+    &__pagination {
+        @include m.flex-between;
+        margin-top: v.$spacing-5;
+        font-size: v.$font-size-sm;
+        color: v.$color-text-muted;
+    }
+    }
+
+    .ticket-card {
+    @include m.card;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: v.$spacing-4;
+    padding: v.$spacing-4 v.$spacing-5;
+    color: v.$color-text;
+
+    &:hover {
+        border-color: v.$color-primary;
+        text-decoration: none;
+    }
+
+    &__title {
+        margin: 0 0 v.$spacing-1;
+        font-size: v.$font-size-base;
+    }
+
+    &__description {
+        @include m.truncate;
+        max-width: 480px;
+        margin: 0;
+        color: v.$color-text-muted;
+        font-size: v.$font-size-sm;
+    }
+
+    &__meta {
+        display: flex;
+        gap: v.$spacing-2;
+        flex-shrink: 0;
+    }
+
+    @include m.respond-to('sm') {
+        flex-direction: column;
+        align-items: flex-start;
+
+        &__description {
+        max-width: 100%;
+        }
+    }
+}
