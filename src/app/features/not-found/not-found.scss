@@ -1,0 +1,11 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+.not-found {
+    min-height: 100vh;
+    @include m.flex-center;
+    flex-direction: column;
+    gap: v.$spacing-3;
+    text-align: center;
+    h1 { font-size: 4rem; color: v.$color-primary; }
+}
