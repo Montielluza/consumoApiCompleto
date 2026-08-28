@@ -31,9 +31,81 @@
             <dd>{{ t.updatedAt | date: 'medium' }}</dd>
         </dl>
 
-        <p class="placeholder-note">
-            El historial de comentarios y la opción de agregar uno nuevo se implementan en el Avance 5.
-        </p>
+        <div class="ticket-detail__actions">
+            @if (canEdit) {
+            <a [routerLink]="['/tickets', id, 'edit']" class="btn--outline">Editar</a>
+            }
+            @if (canDelete) {
+            <button type="button" class="btn--danger" [disabled]="isDeleting()" (click)="deleteTicket()">
+                {{ isDeleting() ? 'Eliminando...' : 'Eliminar ticket' }}
+            </button>
+            }
+        </div>
+
+        @if (canAssign) {
+            <div class="ticket-detail__assign">
+            <h3>Asignar a un agente</h3>
+
+            @if (assignErrorMessage()) {
+                <div class="alert alert--danger">{{ assignErrorMessage() }}</div>
+            }
+
+            <form [formGroup]="assignForm" (ngSubmit)="submitAssign()" class="ticket-detail__assign-form">
+                <select formControlName="agentId">
+                <option value="" disabled>Selecciona un agente</option>
+                @for (agent of agents(); track agent.id) {
+                    <option [value]="agent.id">{{ agent.name }}</option>
+                }
+                </select>
+                <button type="submit" class="btn" [disabled]="isAssigning()">
+                {{ isAssigning() ? 'Asignando...' : 'Asignar' }}
+                </button>
+            </form>
+            </div>
+        }
+        </div>
+
+        <div class="card ticket-detail__comments">
+        <h3>Comentarios</h3>
+
+        @if (isLoadingComments()) {
+            <p class="placeholder-note">Cargando comentarios...</p>
+        } @else if (comments().length === 0) {
+            <p class="placeholder-note">Todavía no hay comentarios.</p>
+        } @else {
+            <ul class="comment-list">
+            @for (comment of comments(); track comment.id) {
+                <li class="comment-list__item">
+                <div class="comment-list__meta">
+                    <strong>{{ comment.author?.name ?? 'Usuario eliminado' }}</strong>
+                    @if (comment.author?.role) {
+                    <span class="badge">{{ comment.author?.role }}</span>
+                    }
+                    <span class="comment-list__date">{{ comment.createdAt | date: 'short' }}</span>
+                </div>
+                <p class="comment-list__body">{{ comment.body }}</p>
+                </li>
+            }
+            </ul>
+        }
+
+        @if (isTicketClosed) {
+            <p class="placeholder-note">Este ticket está cerrado; no se pueden agregar más comentarios.</p>
+        } @else {
+            @if (commentErrorMessage()) {
+            <div class="alert alert--danger">{{ commentErrorMessage() }}</div>
+            }
+
+            <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="comment-form">
+            <div class="form-field">
+                <label for="body">Agregar comentario</label>
+                <textarea id="body" rows="3" formControlName="body" placeholder="Escribe tu comentario..."></textarea>
+            </div>
+            <button type="submit" class="btn" [disabled]="isSendingComment()">
+                {{ isSendingComment() ? 'Enviando...' : 'Comentar' }}
+            </button>
+            </form>
+        }
         </div>
     }
 </div>

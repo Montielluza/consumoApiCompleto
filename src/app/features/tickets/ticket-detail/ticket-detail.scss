@@ -8,6 +8,10 @@
         font-size: v.$font-size-sm;
     }
 
+    &__card {
+        margin-bottom: v.$spacing-5;
+    }
+
     &__header {
         @include m.flex-between;
         flex-wrap: wrap;
@@ -42,5 +46,71 @@
         font-size: v.$font-size-sm;
         font-weight: 600;
         }
+    }
+
+    &__actions {
+        display: flex;
+        gap: v.$spacing-3;
+        margin-bottom: v.$spacing-5;
+    }
+
+    &__assign {
+        border-top: 1px solid v.$color-border;
+        padding-top: v.$spacing-4;
+
+        h3 {
+        font-size: v.$font-size-base;
+        margin-bottom: v.$spacing-3;
+        }
+    }
+
+    &__assign-form {
+        display: flex;
+        gap: v.$spacing-3;
+
+        select {
+        flex: 1;
+        padding: v.$spacing-2 v.$spacing-3;
+        border: 1px solid v.$color-border;
+        border-radius: v.$radius-sm;
+        }
+    }
+    }
+
+    .comment-list {
+    list-style: none;
+    margin: 0 0 v.$spacing-5;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: v.$spacing-4;
+
+    &__item {
+        border-bottom: 1px solid v.$color-border;
+        padding-bottom: v.$spacing-3;
+    }
+
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: v.$spacing-2;
+        margin-bottom: v.$spacing-1;
+        font-size: v.$font-size-sm;
+    }
+
+    &__date {
+        color: v.$color-text-muted;
+        font-size: v.$font-size-xs;
+    }
+
+    &__body {
+        margin: 0;
+        color: v.$color-text;
+    }
+    }
+
+    .comment-form {
+    .form-field {
+        margin-bottom: v.$spacing-3;
     }
 }
