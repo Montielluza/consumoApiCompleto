@@ -1,0 +1,30 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.user-list {
+    &__header { @include m.flex-between; flex-wrap: wrap; gap: v.$spacing-3; margin-bottom: v.$spacing-5; }
+    &__filter { margin-bottom: 0; min-width: 200px; }
+    &__loading { display: flex; align-items: center; gap: v.$spacing-3; color: v.$color-text-muted; font-size: v.$font-size-sm; }
+    }
+
+    .user-table {
+    @include m.card;
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+        text-align: left;
+        padding: v.$spacing-3 v.$spacing-4;
+        border-bottom: 1px solid v.$color-border;
+        font-size: v.$font-size-sm;
+    }
+
+    th { color: v.$color-text-muted; text-transform: uppercase; font-size: v.$font-size-xs; letter-spacing: 0.03em; }
+    tr:last-child td { border-bottom: none; }
+
+    select {
+        padding: v.$spacing-1 v.$spacing-2;
+        border: 1px solid v.$color-border;
+        border-radius: v.$radius-sm;
+    }
+}

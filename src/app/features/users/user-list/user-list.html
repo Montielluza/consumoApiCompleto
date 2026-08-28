@@ -1,0 +1,57 @@
+<div class="user-list">
+    <div class="user-list__header">
+        <h2>Usuarios</h2>
+
+        <div class="form-field user-list__filter">
+        <label for="role-filter">Filtrar por rol</label>
+        <select
+            id="role-filter"
+            [value]="roleFilter()"
+            (change)="onFilterChange($any($event.target).value)"
+        >
+            <option value="">Todos</option>
+            <option value="admin">Administrador</option>
+            <option value="agent">Agente</option>
+            <option value="client">Cliente</option>
+        </select>
+        </div>
+    </div>
+
+    @if (isLoading()) {
+        <div class="user-list__loading">
+        <app-spinner />
+        <span>Cargando usuarios...</span>
+        </div>
+    } @else if (users().length === 0) {
+        <app-empty-state message="No hay usuarios con ese filtro." />
+    } @else {
+        <table class="user-table">
+        <thead>
+            <tr>
+            <th>Nombre</th>
+            <th>Rol actual</th>
+            <th>Cambiar rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of users(); track user.id) {
+            <tr>
+                <td>{{ user.name }}</td>
+                <td><span class="badge">{{ user.role }}</span></td>
+                <td>
+                <select
+                    [value]="user.role"
+                    [disabled]="savingUserId() === user.id"
+                    (change)="onRoleSelectChange(user, $any($event.target).value)"
+                >
+                    <option value="admin">Administrador</option>
+                    <option value="agent">Agente</option>
+                    <option value="client">Cliente</option>
+                </select>
+                </td>
+            </tr>
+            }
+        </tbody>
+        </table>
+    }
+</div>
