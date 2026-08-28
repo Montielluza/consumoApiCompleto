@@ -1,0 +1,46 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.ticket-detail {
+    &__back {
+        display: inline-block;
+        margin-bottom: v.$spacing-4;
+        font-size: v.$font-size-sm;
+    }
+
+    &__header {
+        @include m.flex-between;
+        flex-wrap: wrap;
+        gap: v.$spacing-2;
+        margin-bottom: v.$spacing-4;
+    }
+
+    &__badges {
+        display: flex;
+        gap: v.$spacing-2;
+    }
+
+    &__description {
+        color: v.$color-text;
+        margin-bottom: v.$spacing-5;
+        white-space: pre-line;
+    }
+
+    &__info {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        row-gap: v.$spacing-2;
+        margin: 0 0 v.$spacing-5;
+
+        dt {
+        color: v.$color-text-muted;
+        font-size: v.$font-size-sm;
+        }
+
+        dd {
+        margin: 0;
+        font-size: v.$font-size-sm;
+        font-weight: 600;
+        }
+    }
+}
