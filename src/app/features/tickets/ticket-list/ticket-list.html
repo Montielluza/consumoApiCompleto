@@ -1,6 +1,9 @@
 <div class="ticket-list">
     <div class="ticket-list__header">
         <h2>Tickets</h2>
+        @if (canCreateTicket) {
+        <a routerLink="/tickets/new" class="btn">Nuevo ticket</a>
+        }
     </div>
 
     <form [formGroup]="filtersForm" class="ticket-list__filters">

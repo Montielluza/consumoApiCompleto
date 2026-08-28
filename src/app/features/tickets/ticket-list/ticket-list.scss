@@ -3,6 +3,7 @@
 
 .ticket-list {
     &__header {
+        @include m.flex-between;
         margin-bottom: v.$spacing-4;
     }
 
