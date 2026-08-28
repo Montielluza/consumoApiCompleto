@@ -36,7 +36,7 @@
             <a [routerLink]="['/tickets', id, 'edit']" class="btn--outline">Editar</a>
             }
             @if (canDelete) {
-            <button type="button" class="btn--danger" [disabled]="isDeleting()" (click)="deleteTicket()">
+            <button type="button" class="btn--danger" [disabled]="isDeleting()" (click)="requestDelete()">
                 {{ isDeleting() ? 'Eliminando...' : 'Eliminar ticket' }}
             </button>
             }
@@ -71,7 +71,7 @@
         @if (isLoadingComments()) {
             <p class="placeholder-note">Cargando comentarios...</p>
         } @else if (comments().length === 0) {
-            <p class="placeholder-note">Todavía no hay comentarios.</p>
+            <app-empty-state message="Todavía no hay comentarios." />
         } @else {
             <ul class="comment-list">
             @for (comment of comments(); track comment.id) {
@@ -109,3 +109,13 @@
         </div>
     }
 </div>
+
+@if (showDeleteConfirm()) {
+    <app-confirm-dialog
+        title="Eliminar ticket"
+        message="¿Seguro que quieres eliminar este ticket? Esta acción no se puede deshacer."
+        confirmLabel="Eliminar"
+        (confirm)="confirmDelete()"
+        (cancel)="cancelDelete()"
+    />
+}

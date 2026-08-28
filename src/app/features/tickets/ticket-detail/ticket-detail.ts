@@ -8,16 +8,19 @@ import { TicketService } from '../../../core/services/ticket.service';
 import { CommentService } from '../../../core/services/comment.service';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { Ticket } from '../../../core/models/ticket.model';
 import { Comment } from '../../../core/models/comment.model';
 import { UserSummary } from '../../../core/models/user.model';
 import { ROLES } from '../../../core/constants/roles.constant';
 import { ApiErrorResponse } from '../../../shared/interfaces/api-error.interface';
+import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
+import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 
 @Component({
     selector: 'app-ticket-detail',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink, ConfirmDialog, EmptyState],
     templateUrl: './ticket-detail.html',
     styleUrl: './ticket-detail.scss'
 })
@@ -29,6 +32,7 @@ export class TicketDetail implements OnChanges {
     private readonly commentService = inject(CommentService);
     private readonly userService = inject(UserService);
     protected readonly authService = inject(AuthService);
+    private readonly notificationService = inject(NotificationService);
     private readonly router = inject(Router);
 
     readonly ticket = signal<Ticket | null>(null);
@@ -52,6 +56,7 @@ export class TicketDetail implements OnChanges {
     readonly assignErrorMessage = signal<string | null>(null);
 
     readonly isDeleting = signal(false);
+    readonly showDeleteConfirm = signal(false);
 
     get canEdit(): boolean {
         const t = this.ticket();
@@ -153,6 +158,7 @@ export class TicketDetail implements OnChanges {
         this.ticketService.assignTicket(this.id, this.assignForm.getRawValue()).subscribe({
         next: () => {
             this.isAssigning.set(false);
+            this.notificationService.show('Ticket asignado correctamente.', 'success');
             this.loadTicket();
         },
         error: (err: HttpErrorResponse) => {
@@ -163,17 +169,23 @@ export class TicketDetail implements OnChanges {
         });
     }
 
-    deleteTicket(): void {
-        const confirmed = window.confirm(
-        '¿Seguro que quieres eliminar este ticket? Esta acción no se puede deshacer.'
-        );
-        if (!confirmed) {
-        return;
-        }
+    requestDelete(): void {
+        this.showDeleteConfirm.set(true);
+    }
 
+    cancelDelete(): void {
+        this.showDeleteConfirm.set(false);
+    }
+
+    confirmDelete(): void {
+        this.showDeleteConfirm.set(false);
         this.isDeleting.set(true);
+
         this.ticketService.deleteTicket(this.id).subscribe({
-        next: () => this.router.navigateByUrl('/tickets'),
+        next: () => {
+            this.notificationService.show('Ticket eliminado correctamente.', 'success');
+            this.router.navigateByUrl('/tickets');
+        },
         error: () => {
             this.isDeleting.set(false);
             this.errorMessage.set('No se pudo eliminar el ticket.');
