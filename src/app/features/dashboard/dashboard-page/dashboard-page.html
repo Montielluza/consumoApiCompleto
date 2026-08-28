@@ -16,8 +16,11 @@
     }
 
     @if (isLoadingStats()) {
-        <p class="placeholder-note">Cargando estadísticas...</p>
-    } @else if (stats(); as s) {
+        <div class="dashboard__loading">
+            <app-spinner />
+            <span>Cargando estadísticas...</span>
+        </div>
+} @else if (stats(); as s) {
         <div class="dashboard__stats">
         <a routerLink="/tickets" class="dashboard__stat-card">
             <span class="dashboard__stat-value">{{ s.total }}</span>

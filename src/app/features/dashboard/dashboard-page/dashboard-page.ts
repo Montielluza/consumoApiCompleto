@@ -2,6 +2,8 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { Spinner } from '../../../shared/components/spinner/spinner';
+// ...
 
 import { AuthService } from '../../../core/services/auth.service';
 import { TicketService } from '../../../core/services/ticket.service';
@@ -23,7 +25,7 @@ interface DashboardStats {
 @Component({
     selector: 'app-dashboard-page',
     standalone: true,
-    imports: [AsyncPipe, RouterLink],
+    imports: [AsyncPipe, RouterLink, Spinner],
     templateUrl: './dashboard-page.html',
     styleUrl: './dashboard-page.scss'
 })

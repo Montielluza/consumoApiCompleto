@@ -56,4 +56,12 @@
         text-transform: uppercase;
         letter-spacing: 0.03em;
     }
+    &__loading {
+    display: flex;
+    align-items: center;
+    gap: v.$spacing-3;
+    color: v.$color-text-muted;
+    font-size: v.$font-size-sm;
+    margin-bottom: v.$spacing-5;
+    }
 }
