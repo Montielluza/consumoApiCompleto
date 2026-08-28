@@ -1,0 +1,59 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.dashboard {
+    &__header {
+        @include m.flex-between;
+        flex-wrap: wrap;
+        gap: v.$spacing-3;
+        margin-bottom: v.$spacing-5;
+    }
+
+    &__role-note {
+        color: v.$color-text-muted;
+        font-size: v.$font-size-sm;
+        margin: 0;
+    }
+
+    &__stats {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: v.$spacing-4;
+        margin-bottom: v.$spacing-5;
+
+        @include m.respond-to('lg') {
+        grid-template-columns: repeat(3, 1fr);
+        }
+        @include m.respond-to('sm') {
+        grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    &__stat-card {
+        @include m.card;
+        @include m.flex-center;
+        flex-direction: column;
+        gap: v.$spacing-1;
+        padding: v.$spacing-5 v.$spacing-3;
+        text-decoration: none;
+        transition: transform 0.1s ease;
+
+        &:hover {
+        transform: translateY(-2px);
+        text-decoration: none;
+        }
+    }
+
+    &__stat-value {
+        font-size: v.$font-size-2xl;
+        font-weight: 700;
+        color: v.$color-text;
+    }
+
+    &__stat-label {
+        font-size: v.$font-size-xs;
+        color: v.$color-text-muted;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+}

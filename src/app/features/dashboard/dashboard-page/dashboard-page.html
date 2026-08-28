@@ -1,0 +1,46 @@
+<div class="dashboard">
+    @if (authService.currentUser$ | async; as user) {
+        <div class="dashboard__header">
+        <div>
+            <h2>Hola, {{ user.name }}</h2>
+            <p class="dashboard__role-note">
+            @switch (user.role) {
+                @case ('admin') { Estás viendo todos los tickets del sistema. }
+                @case ('agent') { Estás viendo tus tickets asignados y los que están sin asignar. }
+                @default { Estás viendo únicamente los tickets que has creado. }
+            }
+            </p>
+        </div>
+        <button type="button" class="btn--outline" (click)="logout()">Cerrar sesión</button>
+        </div>
+    }
+
+    @if (isLoadingStats()) {
+        <p class="placeholder-note">Cargando estadísticas...</p>
+    } @else if (stats(); as s) {
+        <div class="dashboard__stats">
+        <a routerLink="/tickets" class="dashboard__stat-card">
+            <span class="dashboard__stat-value">{{ s.total }}</span>
+            <span class="dashboard__stat-label">Total</span>
+        </a>
+        <a routerLink="/tickets" [queryParams]="{ status: 'open' }" class="dashboard__stat-card">
+            <span class="dashboard__stat-value">{{ s.open }}</span>
+            <span class="dashboard__stat-label badge--status-open">Abiertos</span>
+        </a>
+        <a routerLink="/tickets" [queryParams]="{ status: 'in_progress' }" class="dashboard__stat-card">
+            <span class="dashboard__stat-value">{{ s.inProgress }}</span>
+            <span class="dashboard__stat-label badge--status-in_progress">En progreso</span>
+        </a>
+        <a routerLink="/tickets" [queryParams]="{ status: 'resolved' }" class="dashboard__stat-card">
+            <span class="dashboard__stat-value">{{ s.resolved }}</span>
+            <span class="dashboard__stat-label badge--status-resolved">Resueltos</span>
+        </a>
+        <a routerLink="/tickets" [queryParams]="{ status: 'closed' }" class="dashboard__stat-card">
+            <span class="dashboard__stat-value">{{ s.closed }}</span>
+            <span class="dashboard__stat-label badge--status-closed">Cerrados</span>
+        </a>
+        </div>
+    }
+
+    <a routerLink="/tickets" class="btn dashboard__cta">Ver todos los tickets</a>
+</div>
