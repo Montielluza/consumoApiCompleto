@@ -1,0 +1,18 @@
+@use '../../../../styles/variables' as v;
+
+.app-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 1000;
+    background: linear-gradient(90deg, v.$color-primary-light, v.$color-primary, v.$color-primary-light);
+    background-size: 200% 100%;
+    animation: app-loader-move 1s linear infinite;
+}
+
+@keyframes app-loader-move {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}

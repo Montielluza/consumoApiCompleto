@@ -1,0 +1,13 @@
+@use '../../../../styles/variables' as v;
+
+.app-spinner {
+    display: inline-block;
+    border: 3px solid v.$color-border;
+    border-top-color: v.$color-primary;
+    border-radius: 50%;
+    animation: app-spinner-spin 0.7s linear infinite;
+}
+
+@keyframes app-spinner-spin {
+    to { transform: rotate(360deg); }
+}
