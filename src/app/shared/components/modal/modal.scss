@@ -1,0 +1,18 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    @include m.flex-center;
+    z-index: 900;
+    padding: v.$spacing-4;
+}
+
+.modal-panel {
+    @include m.card;
+    width: 100%;
+    max-width: 420px;
+    padding: v.$spacing-5;
+}

@@ -1,0 +1,10 @@
+@use '../../../../styles/variables' as v;
+
+.confirm-dialog__title { margin-bottom: v.$spacing-2; }
+.confirm-dialog__message { color: v.$color-text-muted; margin-bottom: v.$spacing-5; }
+
+.confirm-dialog__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: v.$spacing-3;
+}
