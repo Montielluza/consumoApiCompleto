@@ -4,6 +4,8 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { refreshTokenInterceptor } from './core/interceptors/refresh-token.interceptor';
 
@@ -11,7 +13,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor, refreshTokenInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([loadingInterceptor, errorInterceptor, authInterceptor, refreshTokenInterceptor])
+    ),
     provideAnimations()
   ]
 };
