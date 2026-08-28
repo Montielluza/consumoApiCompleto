@@ -1,0 +1,14 @@
+@use '../../../../styles/variables' as v;
+
+.profile-page {
+    &__loading { display: flex; align-items: center; gap: v.$spacing-3; color: v.$color-text-muted; font-size: v.$font-size-sm; }
+    &__card { max-width: 480px; }
+    &__info {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        row-gap: v.$spacing-3;
+        margin: 0 0 v.$spacing-5;
+        dt { color: v.$color-text-muted; font-size: v.$font-size-sm; }
+        dd { margin: 0; font-weight: 600; }
+    }
+}

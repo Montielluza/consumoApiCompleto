@@ -1,0 +1,40 @@
+<div class="profile-page">
+    <h2>Mi perfil</h2>
+
+    @if (isLoading()) {
+        <div class="profile-page__loading">
+        <app-spinner />
+        <span>Cargando perfil...</span>
+        </div>
+    } @else if (errorMessage()) {
+        <div class="alert alert--danger">{{ errorMessage() }}</div>
+    } @else if (user(); as u) {
+        <div class="card profile-page__card">
+        <dl class="profile-page__info">
+            <dt>Nombre</dt>
+            <dd>{{ u.name }}</dd>
+
+            <dt>Correo</dt>
+            <dd>{{ u.email }}</dd>
+
+            <dt>Rol</dt>
+            <dd><span class="badge">{{ u.role }}</span></dd>
+
+            <dt>Miembro desde</dt>
+            <dd>{{ u.createdAt | date: 'longDate' }}</dd>
+        </dl>
+
+        <button type="button" class="btn--danger" (click)="requestLogout()">Cerrar sesión</button>
+        </div>
+    }
+</div>
+
+@if (showLogoutConfirm()) {
+    <app-confirm-dialog
+        title="Cerrar sesión"
+        message="¿Seguro que quieres cerrar tu sesión?"
+        confirmLabel="Cerrar sesión"
+        (confirm)="confirmLogout()"
+        (cancel)="cancelLogout()"
+    />
+}
