@@ -1,1 +1,13 @@
+<app-loader />
+
+<div class="toast-container">
+    @for (notification of notificationService.notifications(); track notification.id) {
+        <app-alert
+        [type]="notification.type"
+        [message]="notification.message"
+        (dismiss)="notificationService.dismiss(notification.id)"
+        />
+    }
+</div>
+
 <router-outlet></router-outlet>

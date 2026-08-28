@@ -1,16 +1,18 @@
 <div class="main-layout">
   <aside class="main-layout__sidebar">
     <div class="main-layout__brand">Help Desk</div>
-    <!-- app-sidebar se integrará en el Avance 6 -->
+    <app-sidebar />
   </aside>
 
   <div class="main-layout__body">
     <header class="main-layout__header">
-      <!-- app-navbar se integrará en el Avance 6 -->
+      <app-navbar />
     </header>
 
     <main class="main-layout__content">
       <router-outlet></router-outlet>
     </main>
+
+    <app-footer />
   </div>
 </div>
