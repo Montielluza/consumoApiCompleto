@@ -1,0 +1,14 @@
+@use '../../../../styles/variables' as v;
+
+.register-form__submit {
+    width: 100%;
+    justify-content: center;
+    margin-top: v.$spacing-2;
+}
+
+.register-form__footer {
+    text-align: center;
+    margin-top: v.$spacing-5;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+}

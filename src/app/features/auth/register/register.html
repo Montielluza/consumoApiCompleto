@@ -1,0 +1,84 @@
+<h2>Crear cuenta</h2>
+
+@if (errorMessage()) {
+    <div class="alert alert--danger">{{ errorMessage() }}</div>
+}
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="form-field">
+        <label for="name">Nombre completo</label>
+        <input
+        id="name"
+        type="text"
+        formControlName="name"
+        [class.is-invalid]="name.invalid && name.touched"
+        placeholder="Tu nombre"
+        autocomplete="name"
+        />
+        @if (name.invalid && name.touched) {
+        <span class="form-error">
+            @if (name.hasError('required')) { El nombre es obligatorio. }
+            @if (name.hasError('minlength')) { Debe tener al menos 3 caracteres. }
+        </span>
+        }
+    </div>
+
+    <div class="form-field">
+        <label for="reg-email">Correo electrónico</label>
+        <input
+        id="reg-email"
+        type="email"
+        formControlName="email"
+        [class.is-invalid]="email.invalid && email.touched"
+        placeholder="tucorreo@ejemplo.com"
+        autocomplete="email"
+        />
+        @if (email.invalid && email.touched) {
+        <span class="form-error">
+            @if (email.hasError('required')) { El correo es obligatorio. }
+            @if (email.hasError('email')) { Ingresa un correo válido. }
+        </span>
+        }
+    </div>
+
+    <div class="form-field">
+        <label for="reg-password">Contraseña</label>
+        <input
+        id="reg-password"
+        type="password"
+        formControlName="password"
+        [class.is-invalid]="password.invalid && password.touched"
+        placeholder="••••••••"
+        autocomplete="new-password"
+        />
+        @if (password.invalid && password.touched) {
+        <span class="form-error">
+            @if (password.hasError('required')) { La contraseña es obligatoria. }
+            @if (password.hasError('minlength')) { Debe tener al menos 6 caracteres. }
+        </span>
+        }
+    </div>
+
+    <div class="form-field">
+        <label for="confirm-password">Confirmar contraseña</label>
+        <input
+        id="confirm-password"
+        type="password"
+        formControlName="confirmPassword"
+        [class.is-invalid]="confirmPassword.touched && form.hasError('passwordMismatch')"
+        placeholder="••••••••"
+        autocomplete="new-password"
+        />
+        @if (confirmPassword.touched && form.hasError('passwordMismatch')) {
+        <span class="form-error">Las contraseñas no coinciden.</span>
+        }
+    </div>
+
+    <button type="submit" class="btn register-form__submit" [disabled]="isLoading()">
+        {{ isLoading() ? 'Creando cuenta...' : 'Crear cuenta' }}
+    </button>
+</form>
+
+<p class="register-form__footer">
+    ¿Ya tienes cuenta? <a routerLink="/auth/login">Inicia sesión</a>
+</p>
