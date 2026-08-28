@@ -4,27 +4,29 @@ import { Observable, map } from 'rxjs';
 
 import { APP_CONFIG } from '../config/app.config.constant';
 import { API_ENDPOINTS } from '../constants/api-endpoints.constant';
-import { Ticket } from '../models/ticket.model';
-import { ApiDataResponse, ApiPaginatedResponse } from '../../shared/interfaces/api-response.interface';
+import {
+    AssignTicketRequest,
+    AssignTicketResponseData,
+    CreateTicketRequest,
+    Ticket,
+    UpdateTicketRequest
+} from '../models/ticket.model';
+import {
+    ApiDataResponse,
+    ApiPaginatedResponse,
+    MessageResponse
+} from '../../shared/interfaces/api-response.interface';
 import { TicketFilters } from '../../shared/interfaces/pagination.interface';
 
 /**
  * Centraliza toda la comunicación con /api/tickets.
- * Por ahora solo lectura (getTickets, getTicketById); create/update/
- * remove/assign se agregan en el Avance 5.
- *
- * Quién lo usa: DashboardPage (estadísticas), TicketList, TicketDetail.
+ * Quién lo usa: DashboardPage, TicketList, TicketDetail, TicketForm, TicketEdit.
  */
 @Injectable({ providedIn: 'root' })
 export class TicketService {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = APP_CONFIG.apiUrl;
 
-    /**
-     * GET /api/tickets. El backend ya filtra por rol automáticamente
-     * (admin ve todos, agent ve asignados + sin asignar, client ve los suyos),
-     * así que el frontend no necesita replicar esa lógica.
-     */
     getTickets(filters: TicketFilters = {}): Observable<ApiPaginatedResponse<Ticket>> {
         let params = new HttpParams()
         .set('page', String(filters.page ?? 1))
@@ -43,10 +45,42 @@ export class TicketService {
         );
     }
 
-    /** GET /api/tickets/:id */
     getTicketById(id: string): Observable<Ticket> {
         return this.http
         .get<ApiDataResponse<Ticket>>(`${this.baseUrl}${API_ENDPOINTS.tickets.detail(id)}`)
+        .pipe(map((response) => response.data));
+    }
+
+    /** POST /api/tickets. Disponible para admin y client (el backend rechaza a agent). */
+    createTicket(payload: CreateTicketRequest): Observable<Ticket> {
+        return this.http
+        .post<ApiDataResponse<Ticket>>(`${this.baseUrl}${API_ENDPOINTS.tickets.create}`, payload)
+        .pipe(map((response) => response.data));
+    }
+
+    /**
+     * PATCH /api/tickets/:id. admin puede enviar cualquier campo;
+     * agent solo priority/status (el formulario ya restringe esto,
+     * pero el backend es la fuente de verdad final).
+     */
+    updateTicket(id: string, payload: UpdateTicketRequest): Observable<Ticket> {
+        return this.http
+        .patch<ApiDataResponse<Ticket>>(`${this.baseUrl}${API_ENDPOINTS.tickets.update(id)}`, payload)
+        .pipe(map((response) => response.data));
+    }
+
+    /** DELETE /api/tickets/:id. Solo admin. */
+    deleteTicket(id: string): Observable<MessageResponse> {
+        return this.http.delete<MessageResponse>(`${this.baseUrl}${API_ENDPOINTS.tickets.remove(id)}`);
+    }
+
+    /** POST /api/tickets/:id/assign. Solo admin. */
+    assignTicket(id: string, payload: AssignTicketRequest): Observable<AssignTicketResponseData> {
+        return this.http
+        .post<ApiDataResponse<AssignTicketResponseData>>(
+            `${this.baseUrl}${API_ENDPOINTS.tickets.assign(id)}`,
+            payload
+        )
         .pipe(map((response) => response.data));
     }
 }
