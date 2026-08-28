@@ -40,9 +40,12 @@
     }
 
     @if (isLoading()) {
-        <p class="placeholder-note">Cargando tickets...</p>
+        <div class="ticket-list__loading">
+        <app-spinner />
+        <span>Cargando tickets...</span>
+        </div>
     } @else if (filteredTickets().length === 0) {
-        <p class="placeholder-note">No hay tickets que coincidan con los filtros.</p>
+        <app-empty-state message="No hay tickets que coincidan con los filtros." />
     } @else {
         <div class="ticket-list__items">
         @for (ticket of filteredTickets(); track ticket.id) {
@@ -64,20 +67,7 @@
         </div>
 
         @if (meta(); as m) {
-        <div class="ticket-list__pagination">
-            <button type="button" class="btn--outline" [disabled]="page() <= 1" (click)="goToPage(page() - 1)">
-            Anterior
-            </button>
-            <span>Página {{ m.page }} de {{ m.totalPages }} ({{ m.total }} tickets)</span>
-            <button
-            type="button"
-            class="btn--outline"
-            [disabled]="page() >= m.totalPages"
-            (click)="goToPage(page() + 1)"
-            >
-            Siguiente
-            </button>
-        </div>
+        <app-paginator [page]="page()" [totalPages]="m.totalPages" [total]="m.total" (pageChange)="goToPage($event)" />
         }
     }
 </div>

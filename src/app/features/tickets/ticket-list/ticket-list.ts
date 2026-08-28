@@ -8,17 +8,20 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Ticket } from '../../../core/models/ticket.model';
 import { PaginationMeta } from '../../../shared/interfaces/pagination.interface';
 import { ROLES } from '../../../core/constants/roles.constant';
+import { Paginator } from '../../../shared/components/paginator/paginator';
+import { EmptyState } from '../../../shared/components/empty-state/empty-state';
+import { Spinner } from '../../../shared/components/spinner/spinner';
 
 const PAGE_SIZE = 10;
 
 @Component({
     selector: 'app-ticket-list',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule, RouterLink, Paginator, EmptyState, Spinner],
     templateUrl: './ticket-list.html',
     styleUrl: './ticket-list.scss'
-    })
-    export class TicketList implements OnInit {
+})
+export class TicketList implements OnInit {
     private readonly ticketService = inject(TicketService);
     private readonly authService = inject(AuthService);
     private readonly fb = inject(FormBuilder);
@@ -35,7 +38,6 @@ const PAGE_SIZE = 10;
     readonly errorMessage = signal<string | null>(null);
     readonly page = signal(1);
 
-    /** admin y client pueden crear tickets; agent no (lo rechaza el backend). */
     readonly canCreateTicket = this.authService.hasRole(ROLES.ADMIN, ROLES.CLIENT);
 
     readonly filteredTickets = computed(() => {
@@ -48,7 +50,6 @@ const PAGE_SIZE = 10;
 
     ngOnInit(): void {
         this.loadTickets();
-
         this.filtersForm.controls.status.valueChanges.subscribe(() => this.applyFilters());
         this.filtersForm.controls.priority.valueChanges.subscribe(() => this.applyFilters());
     }

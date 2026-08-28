@@ -2,10 +2,7 @@
 @use '../../../../styles/mixins' as m;
 
 .ticket-list {
-    &__header {
-        @include m.flex-between;
-        margin-bottom: v.$spacing-4;
-    }
+    &__header { @include m.flex-between; margin-bottom: v.$spacing-4; }
 
     &__filters {
         display: flex;
@@ -13,25 +10,12 @@
         flex-wrap: wrap;
         align-items: flex-end;
         margin-bottom: v.$spacing-5;
-
-        .form-field {
-        margin-bottom: 0;
-        min-width: 180px;
-        }
+        .form-field { margin-bottom: 0; min-width: 180px; }
     }
 
-    &__items {
-        display: flex;
-        flex-direction: column;
-        gap: v.$spacing-3;
-    }
+    &__loading { display: flex; align-items: center; gap: v.$spacing-3; color: v.$color-text-muted; font-size: v.$font-size-sm; }
 
-    &__pagination {
-        @include m.flex-between;
-        margin-top: v.$spacing-5;
-        font-size: v.$font-size-sm;
-        color: v.$color-text-muted;
-    }
+    &__items { display: flex; flex-direction: column; gap: v.$spacing-3; }
     }
 
     .ticket-card {
@@ -43,15 +27,8 @@
     padding: v.$spacing-4 v.$spacing-5;
     color: v.$color-text;
 
-    &:hover {
-        border-color: v.$color-primary;
-        text-decoration: none;
-    }
-
-    &__title {
-        margin: 0 0 v.$spacing-1;
-        font-size: v.$font-size-base;
-    }
+    &:hover { border-color: v.$color-primary; text-decoration: none; }
+    &__title { margin: 0 0 v.$spacing-1; font-size: v.$font-size-base; }
 
     &__description {
         @include m.truncate;
@@ -61,18 +38,11 @@
         font-size: v.$font-size-sm;
     }
 
-    &__meta {
-        display: flex;
-        gap: v.$spacing-2;
-        flex-shrink: 0;
-    }
+    &__meta { display: flex; gap: v.$spacing-2; flex-shrink: 0; }
 
     @include m.respond-to('sm') {
         flex-direction: column;
         align-items: flex-start;
-
-        &__description {
-        max-width: 100%;
-        }
+        &__description { max-width: 100%; }
     }
 }
