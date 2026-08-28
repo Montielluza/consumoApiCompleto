@@ -1,0 +1,9 @@
+@use '../../../../styles/variables' as v;
+@use '../../../../styles/mixins' as m;
+
+.paginator {
+    @include m.flex-between;
+    margin-top: v.$spacing-5;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+}
